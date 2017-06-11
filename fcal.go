@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/rfaulhaber/fdate"
-	"strings"
-	"strconv"
 	"io"
 	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 			spaces = "  "
 		} else if i < 10 {
 			spaces = "   "
-		} else if i % 10 == 1 {
+		} else if i%10 == 1 {
 			spaces = " "
 		} else {
 			spaces = "  "
@@ -55,16 +55,12 @@ func main() {
 			dateStr = "\033[7m" + dateStr + "\033[27m"
 		}
 
-		output += spaces + strconv.Itoa(i)
+		output += spaces + dateStr
 
-		if i % 10 == 0 {
+		if i%10 == 0 {
 			output += "\n"
 		}
 	}
 
 	io.WriteString(os.Stdout, output)
 }
-
-//func calbuilder(date fdate.Date) string {
-//
-//}
