@@ -7,15 +7,29 @@ import (
 	"strconv"
 	"strings"
     "runtime"
+    "flag"
 )
 
 func main() {
-	today := fdate.Today()
+    todayFlag := flag.Bool("t", false, "prints today's date instead of the month")
+    flag.Parse()
 
+    output := ""
+
+    if (*todayFlag) {
+        output = fdate.Today().String()
+    } else {
+        output = calendarBuilder(fdate.Today())
+    }
+
+	io.WriteString(os.Stdout, output)
+}
+
+func calendarBuilder(date fdate.Date) string {
 	output := ""
 
-	month := today.Month().String()
-	year := today.RomanYear().String()
+	month := date.Month().String()
+	year := date.RomanYear().String()
 
 	monthSpaces := "            "
 
@@ -52,7 +66,7 @@ func main() {
 		dateStr := strconv.Itoa(i)
 
         // disabling highlighting on Windows because I don't know how to do it
-        if runtime.GOOS != "windows" && i == today.Day() {
+        if runtime.GOOS != "windows" && i == date.Day() {
 			dateStr = "\033[7m" + dateStr + "\033[27m"
         }
 
@@ -63,5 +77,5 @@ func main() {
 		}
 	}
 
-	io.WriteString(os.Stdout, output)
+    return output;
 }
