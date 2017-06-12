@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+    "runtime"
 )
 
 func main() {
@@ -50,10 +51,10 @@ func main() {
 
 		dateStr := strconv.Itoa(i)
 
-		// this isn't working for some reason
-		if i == today.Day() {
+        // disabling highlighting on Windows because I don't know how to do it
+        if runtime.GOOS != "windows" && i == today.Day() {
 			dateStr = "\033[7m" + dateStr + "\033[27m"
-		}
+        }
 
 		output += spaces + dateStr
 
