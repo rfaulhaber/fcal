@@ -17,7 +17,7 @@ func main() {
     output := ""
 
     if (*todayFlag) {
-        output = fdate.Today().String()
+        output = fdate.Today().String() + "\n"
     } else {
         output = calendarBuilder(fdate.Today())
     }
