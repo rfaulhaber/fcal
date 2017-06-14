@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-    "runtime"
     "flag"
 )
 
@@ -49,7 +48,15 @@ func calendarBuilder(date fdate.Date) string {
 
 	output += "\n"
 
-	for i := 1; i < 31; i++ {
+	var monthDays int
+
+	if date.Month() < 13 {
+		monthDays = 31
+	} else {
+		monthDays = 6
+	}
+
+	for i := 1; i < monthDays; i++ {
 		spaces := ""
 
 		// TODO: do this in a cleaner way
@@ -65,8 +72,8 @@ func calendarBuilder(date fdate.Date) string {
 
 		dateStr := strconv.Itoa(i)
 
-        // disabling highlighting on Windows because I don't know how to do it
-        if runtime.GOOS != "windows" && i == date.Day() {
+		// this doesn't work in the command prompt but works in Powershell on Windows
+        if i == date.Day() {
 			dateStr = "\033[7m" + dateStr + "\033[27m"
         }
 
