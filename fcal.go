@@ -15,7 +15,7 @@ func main() {
 
     output := ""
 
-    if (*todayFlag) {
+    if *todayFlag {
         output = fdate.Today().String() + "\n"
     } else {
         output = calendarBuilder(fdate.Today())
@@ -30,9 +30,16 @@ func calendarBuilder(date fdate.Date) string {
 	month := date.Month().String()
 	year := date.RomanYear().String()
 
-	monthSpaces := "            "
+	monthString := month + " " + year;
+	spacesCount := 20 - len(monthString) / 2
 
-	output += monthSpaces + month + " " + year + "\n"
+	monthSpaces := ""
+
+	for i := 0; i < spacesCount; i ++ {
+		monthSpaces += " "
+	}
+
+	output += monthSpaces + monthString + "\n"
 
 	for i := 0; i < 10; i++ {
 		weekday := fdate.Weekday(i).String()
