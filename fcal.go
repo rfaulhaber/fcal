@@ -16,7 +16,13 @@ func main() {
 	output := ""
 
 	if *todayFlag {
-		output = fdate.Today().String() + "\n"
+		today := fdate.Today()
+
+		output = today.String() + "\n"
+
+		if today.Month() == 13 {
+			output += " - " + fdate.CompDay(today.Day()).String()
+		}
 	} else {
 		output = calendarBuilder(fdate.Today())
 	}
@@ -52,7 +58,6 @@ func calendarBuilder(date fdate.Date) string {
 			weekCount = 5
 		}
 	}
-
 
 	for i := 0; i < weekCount; i++ {
 		weekday := fdate.Weekday(i).String()
