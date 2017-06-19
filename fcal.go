@@ -1,25 +1,25 @@
 package main
 
 import (
+	"flag"
 	"github.com/rfaulhaber/fdate"
 	"io"
 	"os"
 	"strconv"
 	"strings"
-    "flag"
 )
 
 func main() {
-    todayFlag := flag.Bool("t", false, "prints today's date instead of the month")
-    flag.Parse()
+	todayFlag := flag.Bool("t", false, "prints today's date instead of the month")
+	flag.Parse()
 
-    output := ""
+	output := ""
 
-    if *todayFlag {
-        output = fdate.Today().String() + "\n"
-    } else {
-        output = calendarBuilder(fdate.Today())
-    }
+	if *todayFlag {
+		output = fdate.Today().String() + "\n"
+	} else {
+		output = calendarBuilder(fdate.Today())
+	}
 
 	io.WriteString(os.Stdout, output)
 }
@@ -30,18 +30,31 @@ func calendarBuilder(date fdate.Date) string {
 	month := date.Month().String()
 	year := date.RomanYear().String()
 
-	monthString := month + " " + year;
-	spacesCount := 20 - len(monthString) / 2
+	monthString := month + " " + year
+	spacesCount := 20 - len(monthString)/2
 
 	monthSpaces := ""
 
-	for i := 0; i < spacesCount; i ++ {
+	for i := 0; i < spacesCount; i++ {
 		monthSpaces += " "
 	}
 
 	output += monthSpaces + monthString + "\n"
 
-	for i := 0; i < 10; i++ {
+	var weekCount int
+
+	if date.Month() < 13 {
+		weekCount = 10
+	} else {
+		if date.IsLeapYear() {
+			weekCount = 6
+		} else {
+			weekCount = 5
+		}
+	}
+
+
+	for i := 0; i < weekCount; i++ {
 		weekday := fdate.Weekday(i).String()
 		abbr := strings.ToUpper(string(weekday[0])) + string(weekday[1:3])
 
@@ -80,9 +93,9 @@ func calendarBuilder(date fdate.Date) string {
 		dateStr := strconv.Itoa(i)
 
 		// this doesn't work in the command prompt but works in Powershell on Windows
-        if i == date.Day() {
+		if i == date.Day() {
 			dateStr = "\033[7m" + dateStr + "\033[27m"
-        }
+		}
 
 		output += spaces + dateStr
 
@@ -91,5 +104,5 @@ func calendarBuilder(date fdate.Date) string {
 		}
 	}
 
-    return output;
+	return output
 }
