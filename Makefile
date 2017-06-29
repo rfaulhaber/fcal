@@ -10,4 +10,4 @@ mac: fcal.go
 	env GOOS=darwin arch=amd64 $(GOBUILD) -o fcal-mac $(SOURCE)
 
 windows: fcal.go
-	env GOOS=windows arch=amd64 $(GOBUILD) -o fcal-windows $(SOURCE)
+	env GOOS=windows arch=amd64 $(GOBUILD) -o fcal-windows.exe $(SOURCE)
