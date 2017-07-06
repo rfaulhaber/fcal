@@ -65,7 +65,7 @@ func calendarBuilder(date fdate.Date) string {
 
 		// "é" is two bytes, so we need to grab the next one
 		if i == 9 {
-			abbr += string(weekday[4])
+			abbr += string(weekday[3])
 		}
 
 		output += abbr + " "
