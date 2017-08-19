@@ -99,7 +99,12 @@ func calendarBuilder(date fdate.Date) string {
 
 		// this doesn't work in the command prompt but works in Powershell on Windows
 		if i == date.Day() {
-			dateStr = "\033[7m" + dateStr + "\033[27m"
+            if len(dateStr) == 1 {
+                dateStr = "\033[7m " + dateStr + "\033[27m"
+                spaces = spaces[:len(spaces) - 1]
+            } else {
+                dateStr = "\033[7m" + dateStr + "\033[27m"
+            }
 		}
 
 		output += spaces + dateStr
