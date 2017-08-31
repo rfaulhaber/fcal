@@ -73,46 +73,55 @@ func calendarBuilder(date fdate.Date) string {
 
 	output += "\n"
 
-	var monthDays int
+	if date.Month() == 13 {
 
-	if date.Month() < 13 {
-		monthDays = 31
 	} else {
-		monthDays = 6
-	}
+		monthDays := 31
 
-	for i := 1; i < monthDays; i++ {
-		spaces := ""
+		for i := 1; i < monthDays; i++ {
+			spaces := ""
 
-		// TODO: do this in a cleaner way
-		if i == 1 {
-			spaces = "  "
-		} else if i < 10 {
-			spaces = "   "
-		} else if i%10 == 1 {
-			spaces = " "
-		} else {
-			spaces = "  "
-		}
+			// TODO: do this in a cleaner way
+			if i == 1 {
+				spaces = "  "
+			} else if i < 10 {
+				spaces = "   "
+			} else if i%10 == 1 {
+				spaces = " "
+			} else {
+				spaces = "  "
+			}
 
-		dateStr := strconv.Itoa(i)
+			dateStr := strconv.Itoa(i)
 
-		// this doesn't work in the command prompt but works in Powershell on Windows
-		if i == date.Day() {
-            if len(dateStr) == 1 {
-                dateStr = "\033[7m " + dateStr + "\033[27m"
-                spaces = spaces[:len(spaces) - 1]
-            } else {
-                dateStr = "\033[7m" + dateStr + "\033[27m"
-            }
-		}
+			// this doesn't work in the command prompt but works in Powershell on Windows
+			if i == date.Day() {
+				dateStr = highlightDate(dateStr)
 
-		output += spaces + dateStr
+				if strings.Contains(dateStr, " ") {
+					spaces = spaces[:len(spaces)-1]
+				}
+			}
 
-		if i%10 == 0 {
-			output += "\n"
+			output += spaces + dateStr
+
+			if i%10 == 0 {
+				output += "\n"
+			}
 		}
 	}
 
 	return output
+}
+
+func highlightDate(dateStr string) string {
+	var str string
+
+	if len(dateStr) == 1 {
+		str = "\033[7m " + dateStr + "\033[27m"
+	} else {
+		str = "\033[7m" + dateStr + "\033[27m"
+	}
+
+	return str
 }
