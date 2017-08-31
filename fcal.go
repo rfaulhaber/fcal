@@ -74,7 +74,25 @@ func calendarBuilder(date fdate.Date) string {
 	output += "\n"
 
 	if date.Month() == 13 {
+		var days int
 
+		if date.IsLeapYear() {
+			days = 6
+		} else {
+			days = 5
+		}
+
+		for i := 0; i < days; i++ {
+			output += " "
+
+			if i == date.Day() {
+				output += highlightDate(strconv.Itoa(i))
+			} else {
+				output += strconv.Itoa(i)
+			}
+
+			output += " - " + fdate.CompDay(date.Day()).String() + "\n"
+		}
 	} else {
 		monthDays := 31
 
