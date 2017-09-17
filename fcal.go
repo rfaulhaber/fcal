@@ -18,10 +18,10 @@ func main() {
 	if *todayFlag {
 		today := fdate.Today()
 
-		output = today.String() + "\n"
-
 		if today.Month() == 13 {
-			output += " - " + fdate.CompDay(today.Day()).String()
+			output += today.String() + " - " + fdate.CompDay(today.Day()).String() + "\n"
+		} else {
+			output = today.String() + "\n"
 		}
 	} else {
 		output = calendarBuilder(fdate.Today())
@@ -47,31 +47,21 @@ func calendarBuilder(date fdate.Date) string {
 
 	output += monthSpaces + monthString + "\n"
 
-	var weekCount int
-
 	if date.Month() < 13 {
-		weekCount = 10
-	} else {
-		if date.IsLeapYear() {
-			weekCount = 6
-		} else {
-			weekCount = 5
-		}
-	}
+		for i := 0; i < 10; i++ {
+			weekday := fdate.Weekday(i).String()
+			abbr := strings.ToUpper(string(weekday[0])) + string(weekday[1:3])
 
-	for i := 0; i < weekCount; i++ {
-		weekday := fdate.Weekday(i).String()
-		abbr := strings.ToUpper(string(weekday[0])) + string(weekday[1:3])
+			// "é" is two bytes, so we need to grab the next one
+			if i == 9 {
+				abbr += string(weekday[3])
+			}
 
-		// "é" is two bytes, so we need to grab the next one
-		if i == 9 {
-			abbr += string(weekday[3])
+			output += abbr + " "
 		}
 
-		output += abbr + " "
+		output += "\n"
 	}
-
-	output += "\n"
 
 	if date.Month() == 13 {
 		var days int
@@ -83,15 +73,15 @@ func calendarBuilder(date fdate.Date) string {
 		}
 
 		for i := 0; i < days; i++ {
-			output += " "
-
-			if i == date.Day() {
-				output += highlightDate(strconv.Itoa(i))
+			dayIndex := i + 1;
+			if dayIndex == date.Day() {
+				output += highlightDate(strconv.Itoa(dayIndex))
 			} else {
-				output += strconv.Itoa(i)
+				output += " "
+				output += strconv.Itoa(dayIndex)
 			}
 
-			output += " - " + fdate.CompDay(date.Day()).String() + "\n"
+			output += " - " + fdate.CompDay(i).String() + "\n"
 		}
 	} else {
 		monthDays := 31
