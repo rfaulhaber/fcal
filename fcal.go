@@ -19,7 +19,7 @@ func main() {
 		today := fdate.Today()
 
 		if today.Month() == 13 {
-			output += today.String() + " - " + fdate.CompDay(today.Day()).String() + "\n"
+			output += today.String() + " - " + fdate.CompDay(today.Day() - 1).String() + "\n"
 		} else {
 			output = today.String() + "\n"
 		}
