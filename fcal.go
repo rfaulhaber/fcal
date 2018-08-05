@@ -2,9 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/rfaulhaber/fdate"
-	"io"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -19,18 +18,18 @@ func main() {
 		today := fdate.Today()
 
 		if today.Month() == 13 {
-			output += today.String() + " - " + fdate.CompDay(today.Day() - 1).String() + "\n"
+			output += today.String() + " - " + fdate.CompDay(today.Day()-1).String() + "\n"
 		} else {
 			output = today.String() + "\n"
 		}
 	} else {
-		output = calendarBuilder(fdate.Today())
+		output = CreateCalendar(fdate.Today())
 	}
 
-	io.WriteString(os.Stdout, output)
+	fmt.Println(output)
 }
 
-func calendarBuilder(date fdate.Date) string {
+func CreateCalendar(date fdate.Date) string {
 	output := ""
 
 	month := date.Month().String()
@@ -73,7 +72,7 @@ func calendarBuilder(date fdate.Date) string {
 		}
 
 		for i := 0; i < days; i++ {
-			dayIndex := i + 1;
+			dayIndex := i + 1
 			if dayIndex == date.Day() {
 				output += highlightDate(strconv.Itoa(dayIndex))
 			} else {
@@ -89,7 +88,6 @@ func calendarBuilder(date fdate.Date) string {
 		for i := 1; i < monthDays; i++ {
 			spaces := ""
 
-			// TODO: do this in a cleaner way
 			if i == 1 {
 				spaces = "  "
 			} else if i < 10 {
