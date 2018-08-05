@@ -4,5 +4,5 @@
 *.dylib
 *.test
 *.out
-idea/
+.idea/
 vendor/
