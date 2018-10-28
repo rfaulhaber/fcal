@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"github.com/rfaulhaber/fdate"
-	"github.com/magiconair/properties/assert"
 )
 
 func TestCreateCalendar(t *testing.T) {
