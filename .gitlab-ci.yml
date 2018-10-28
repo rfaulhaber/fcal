@@ -1,12 +1,8 @@
-image: golang:1.11
+image: golang:1.10
 
 stages:
   - build
   - test
-
-before_script:
-  - cp -r /builds/rfaulhaber /go/src/github.com/rfaulhaber
-  - cd /go/src/github.com/rfaulhaber/fcal
 
 build-project:
   stage: build
