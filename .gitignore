@@ -6,3 +6,8 @@
 *.out
 .idea/
 vendor/
+
+result
+fcal
+.envrc
+.direnv
